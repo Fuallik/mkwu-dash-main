@@ -1,0 +1,11 @@
+.env
+.env.*
+!.env.example
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+__pycache__/
+tests/artifacts/
+.vercel/
+# config.js is intentionally tracked: public configuration only, no credentials.

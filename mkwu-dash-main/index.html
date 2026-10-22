@@ -1,0 +1,428 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#616b36">
+    <meta name="referrer" content="no-referrer">
+    <meta name="robots" content="noindex, nofollow">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' blob:; font-src 'self'; connect-src 'self' https://cheesecake-api-mu.vercel.app; object-src 'none'; base-uri 'none'; form-action 'none'">
+    <title>Le Cheese — Admin Pesanan</title>
+    <link rel="icon" href="./assets/cheese.png" type="image/png">
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/responsive.css">
+    <script type="module" src="./js/dashboard.js">
+    </script>
+  </head>
+  <body>
+    <svg class="icon-library" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <symbol id="i-grid" viewBox="0 0 24 24">
+        <rect x="3" y="3" width="7" height="7" rx="1.5"/>
+        <rect x="14" y="3" width="7" height="7" rx="1.5"/>
+        <rect x="3" y="14" width="7" height="7" rx="1.5"/>
+        <rect x="14" y="14" width="7" height="7" rx="1.5"/>
+      </symbol>
+      <symbol id="i-bag" viewBox="0 0 24 24">
+        <path d="M5 7h14l1 14H4L5 7Z"/>
+        <path d="M8 8V6a4 4 0 0 1 8 0v2"/>
+      </symbol>
+      <symbol id="i-report" viewBox="0 0 24 24">
+        <path d="M14 3H5v18h14V8l-5-5Z M14 3v5h5 M8 12h8 M8 16h6"/>
+      </symbol>
+      <symbol id="i-arrow" viewBox="0 0 24 24">
+        <path d="m9 5 7 7-7 7"/>
+      </symbol>
+      <symbol id="i-download" viewBox="0 0 24 24">
+        <path d="M12 3v12m-5-5 5 5 5-5M4 16v5h16v-5"/>
+      </symbol>
+      <symbol id="i-refresh" viewBox="0 0 24 24">
+        <path d="M20 10a8 8 0 0 0-14-5L3 8m0-5v5h5M4 14a8 8 0 0 0 14 5l3-3m0 5v-5h-5"/>
+      </symbol>
+      <symbol id="i-search" viewBox="0 0 24 24">
+        <circle cx="10.5" cy="10.5" r="6.5"/>
+        <path d="m16 16 5 5"/>
+      </symbol>
+      <symbol id="i-check" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="9"/>
+        <path d="m8 12 3 3 5-6"/>
+      </symbol>
+      <symbol id="i-clock" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="9"/>
+        <path d="M12 7v5l3 2"/>
+      </symbol>
+      <symbol id="i-wallet" viewBox="0 0 24 24">
+        <path d="M20 8V5H5a2 2 0 0 0 0 4h16v11H5a2 2 0 0 1-2-2V7m18 5h-6v5h6"/>
+      </symbol>
+      <symbol id="i-logout" viewBox="0 0 24 24">
+        <path d="M9 4H4v16h5m4-8h8m-4-4 4 4-4 4"/>
+      </symbol>
+      <symbol id="i-close" viewBox="0 0 24 24">
+        <path d="m6 6 12 12M6 18 18 6"/>
+      </symbol>
+      <symbol id="i-lock" viewBox="0 0 24 24">
+        <rect x="5" y="10" width="14" height="11" rx="2"/>
+        <path d="M8 10V7a4 4 0 0 1 8 0v3m-4 5v2"/>
+      </symbol>
+      <symbol id="i-plus" viewBox="0 0 24 24">
+        <path d="M12 5v14M5 12h14"/>
+      </symbol>
+      <symbol id="i-image" viewBox="0 0 24 24">
+        <rect x="3" y="5" width="18" height="14" rx="2"/>
+        <circle cx="9" cy="10" r="1.6"/>
+        <path d="m21 16-5-5-8 8"/>
+      </symbol>
+      <symbol id="i-info" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="9"/>
+        <path d="M12 11v6m0-10v1"/>
+      </symbol>
+    </svg>
+    <a class="skip-link" href="#main-content">Lewati ke konten</a>
+    <noscript>
+      <p class="noscript">Aktifkan JavaScript untuk menjalankan dashboard. Gunakan HTTP server, bukan file://.</p>
+    </noscript>
+    <section id="access-screen" class="access-screen" aria-labelledby="access-title">
+      <div class="access-form-wrap">
+        <div class="access-card">
+          <a class="brand access-brand" href="./">
+            <img src="./assets/cheese.png" width="36" height="36" alt="">
+            <span>le cheese</span>
+          </a>
+          <h1 id="access-title">Masuk ke ruang admin</h1>
+          <p class="muted">Kelola pesanan dan pembayaran Open PO.</p>
+          <div id="setup-notice" class="notice">
+<strong>API admin dinonaktifkan</strong>
+            <p>Periksa konfigurasi publik dashboard.</p>
+          </div>
+          <form id="login-form" hidden>
+            <label for="password">Kata sandi</label>
+            <input id="password" name="password" type="password" autocomplete="off" required>
+            <button class="button primary full" id="login-button" type="submit">Masuk</button>
+          </form>
+          <p id="login-error" class="form-error" role="alert" hidden>
+          </p>
+
+          <p class="access-security">
+            <svg class="icon">
+              <use href="#i-lock"/>
+            </svg>
+            Password hanya disimpan sementara sampai keluar atau memuat ulang halaman.
+          </p>
+        </div>
+      </div>
+    </section>
+    <div id="workspace" class="workspace" hidden>
+      <aside class="sidebar" aria-label="Navigasi utama">
+        <a class="brand" href="#overview">
+          <img src="./assets/cheese.png" width="34" height="34" alt="">
+          <span>
+            le cheese
+            <span class="brand-caption">Admin pesanan</span>
+          </span>
+        </a>
+        <nav class="nav-links">
+          <a href="#overview" class="nav-link active" aria-current="page">
+            <svg class="icon">
+              <use href="#i-bag"/>
+            </svg>
+            Pesanan
+            <span id="nav-count" class="nav-count">—</span>
+          </a>
+
+        </nav>
+        <div class="sidebar-bottom">
+          <div class="user-block">
+            <span class="avatar" id="user-initials">LC</span>
+            <div>
+              <strong id="user-name">Tim Le Cheese</strong>
+              <span id="user-role">—</span>
+            </div>
+            <button id="logout" class="icon-button" type="button" aria-label="Keluar">
+              <svg class="icon">
+                <use href="#i-logout"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </aside>
+      <div class="main-shell">
+        <header class="topbar">
+          <div>
+            <span class="breadcrumb">Ruang admin</span>
+            <span class="breadcrumb-divider">/</span>
+            <strong id="breadcrumb-current">Pesanan</strong>
+          </div>
+          <div class="topbar-right">
+            <span id="today" class="today">
+            </span>
+            <span class="private-badge">
+              <svg class="icon">
+                <use href="#i-lock"/>
+              </svg>
+              Akses terbatas
+            </span>
+          </div>
+        </header>
+        <main id="main-content" tabindex="-1">
+          <section id="overview" class="overview" aria-labelledby="page-title">
+            <div class="page-heading">
+              <div>
+                <h1 id="page-title">Pesanan</h1>
+                <p class="muted">Kelola pesanan dan pembayaran Open PO.</p>
+              </div>
+              <button id="create-open" class="button primary" type="button">
+                <svg class="icon">
+                  <use href="#i-plus"/>
+                </svg>
+                Tambah pesanan
+              </button>
+            </div>
+            <div class="overview-note">
+              <span>
+                <strong id="data-source">Data transaksi</strong>
+              </span>
+              <span id="last-updated">Belum diperbarui</span>
+            </div>
+            <div class="stats-grid" aria-label="Ringkasan seluruh pesanan" aria-busy="false" id="stats">
+              <article class="stat-card">
+                <h2>Total pesanan</h2>
+                <strong id="stat-orders" class="stat-value">—</strong>
+              </article>
+              <article class="stat-card">
+                <h2>Nilai semua pesanan</h2>
+                <strong id="stat-value" class="stat-value currency">—</strong>
+              </article>
+              <article class="stat-card">
+                <h2>Sudah dibayar</h2>
+                <strong id="stat-confirmed" class="stat-value">—</strong>
+              </article>
+              <article class="stat-card">
+                <h2>Menunggu pembayaran</h2>
+                <strong id="stat-pending" class="stat-value">—</strong>
+              </article>
+            </div>
+            <p id="summary-error" class="form-error" role="alert" hidden></p>
+            <details class="stats-footnote">
+              <summary>Tentang ringkasan</summary>
+              <p>
+                Ringkasan seluruh data, tidak mengikuti filter tabel. Nilai semua pesanan termasuk pesanan dibatalkan, bukan pendapatan bersih. Sudah dibayar menghitung status COMPLETED; menunggu pembayaran menghitung status PENDING.
+                <span id="mapping-note">COMPLETED berarti Sudah dibayar berdasarkan pemeriksaan manual admin.</span>
+              </p>
+            </details>
+          </section>
+          <section id="transactions" class="transactions panel" aria-labelledby="transactions-title">
+            <div class="panel-heading">
+              <div>
+                <h2 id="transactions-title">
+                  Daftar pesanan
+                  <span id="result-count" class="count-pill">—</span>
+                </h2>
+              </div>
+              <button id="refresh" class="button secondary" type="button">
+                <svg class="icon">
+                  <use href="#i-refresh"/>
+                </svg>
+                Muat ulang
+              </button>
+            </div>
+            <div class="table-toolbar">
+              <div class="search-field">
+                <svg class="icon">
+                  <use href="#i-search"/>
+                </svg>
+                <label for="search" class="sr-only">Cari ID pesanan</label>
+                <input type="search" id="search" placeholder="Cari ID pesanan…" autocomplete="off" maxlength="64">
+              </div>
+              <div class="filter-field">
+                <label for="status-filter">Status</label>
+                <select id="status-filter">
+                  <option value="">Semua status</option>
+                  <option value="PENDING">Menunggu</option>
+                  <option value="COMPLETED">Sudah dibayar</option>
+                  <option value="NEEDS_REVIEW">Perlu diperiksa</option>
+                  <option value="CANCELLED">Dibatalkan</option>
+                </select>
+              </div>
+              <button type="button" class="text-button" id="reset-filters" hidden>Hapus filter</button>
+            </div>
+            <div id="table-region" aria-busy="false">
+              <div class="table-scroll" tabindex="0" role="region" aria-label="Tabel transaksi; geser horizontal pada layar kecil">
+                <table>
+                  <caption class="sr-only">Transaksi Open PO, waktu Indonesia Barat</caption>
+                  <thead>
+                    <tr>
+                      <th scope="col">ID pesanan</th>
+                      <th scope="col">Pelanggan</th>
+                      <th scope="col" class="align-right">Total bayar</th>
+                      <th scope="col">Metode</th>
+                      <th scope="col">Status pembayaran</th>
+                      <th scope="col">
+                        Tanggal
+                        <small>WIB</small>
+                      </th>
+                      <th scope="col" class="align-right">Aksi</th>
+                    </tr>
+                  </thead>
+                  <tbody id="order-rows">
+                  </tbody>
+                </table>
+              </div>
+              <div id="table-state" class="table-state" role="status" aria-live="polite" hidden>
+              </div>
+            </div>
+            <div class="pagination">
+              <span id="page-info" role="status" aria-live="polite">Belum ada data</span>
+              <div class="page-controls">
+                <label for="page-size">Per halaman</label>
+                <select id="page-size">
+                  <option value="8">8</option>
+                  <option value="16">16</option>
+                  <option value="32">32</option>
+                </select>
+                <button id="page-prev" class="icon-button" type="button" aria-label="Halaman sebelumnya" disabled>
+                  <span aria-hidden="true">←</span>
+                </button>
+                <span id="page-number">1 / 1</span>
+                <button id="page-next" class="icon-button" type="button" aria-label="Halaman berikutnya" disabled>
+                  <span aria-hidden="true">→</span>
+                </button>
+              </div>
+            </div>
+          </section>
+          <div class="bottom-note">
+            <span class="note-icon">
+              <svg class="icon">
+                <use href="#i-info"/>
+              </svg>
+            </span>
+            <p>Periksa dana masuk sebelum menetapkan Sudah dibayar. Perubahan metode pembayaran, status, dan kontak memerlukan konfirmasi.</p>
+          </div>
+          <footer class="page-footer">
+            <span>
+              ©
+              <span id="year">
+              </span>
+              Le Cheese
+            </span>
+            <span>Admin pesanan</span>
+          </footer>
+        </main>
+      </div>
+    </div>
+    <dialog id="detail-dialog" class="detail-dialog" aria-labelledby="detail-title">
+      <div class="dialog-heading">
+        <div>
+          <span class="eyebrow">DETAIL PESANAN</span>
+          <h2 id="detail-title">Detail pesanan</h2>
+        </div>
+        <button type="button" class="icon-button" data-close="detail-dialog" aria-label="Tutup detail">
+          <svg class="icon">
+            <use href="#i-close"/>
+          </svg>
+        </button>
+      </div>
+      <div id="detail-content" class="dialog-content">
+      </div>
+      <div class="dialog-actions">
+        <button type="button" class="button secondary" data-close="detail-dialog">Tutup</button>
+
+      </div>
+    </dialog>
+    <dialog id="confirm-dialog" class="confirm-dialog" aria-labelledby="confirm-title" aria-describedby="confirm-description">
+      <div class="dialog-heading">
+        <span class="access-icon">
+          <svg class="icon">
+            <use href="#i-check"/>
+          </svg>
+        </span>
+        <button type="button" class="icon-button" data-close="confirm-dialog" aria-label="Batalkan konfirmasi">
+          <svg class="icon">
+            <use href="#i-close"/>
+          </svg>
+        </button>
+      </div>
+      <div class="dialog-content">
+        <span class="eyebrow">KONFIRMASI PERUBAHAN</span>
+        <h2 id="confirm-title">Simpan perubahan?</h2>
+        <p id="confirm-description" class="muted">Periksa kembali perubahan sebelum menyimpan.</p>
+        <div id="confirm-summary" class="confirm-summary">
+        </div>
+        <div id="delete-confirmation" hidden>
+          <label for="delete-order-id">Ketik Order ID persis untuk menghapus</label>
+          <input id="delete-order-id" type="text" autocomplete="off" spellcheck="false" aria-describedby="confirm-description confirm-summary">
+        </div>
+        <label id="merchant-confirmation" class="checkbox-label">
+          <input id="merchant-checked" type="checkbox">
+          Saya sudah memeriksa pesanan dan perubahan yang dipilih.
+        </label>
+        <p id="confirm-error" role="alert" class="form-error" hidden>
+        </p>
+      </div>
+      <div class="dialog-actions">
+        <button type="button" class="button secondary" data-close="confirm-dialog" id="confirm-cancel" autofocus>Batal</button>
+        <button type="button" class="button primary" id="confirm-submit" disabled>Ya, simpan perubahan</button>
+      </div>
+    </dialog>
+    <dialog id="create-dialog" class="detail-dialog" aria-labelledby="create-title">
+      <div class="dialog-heading">
+        <div>
+          <span class="eyebrow">PESANAN MANUAL</span>
+          <h2 id="create-title">Tambah pesanan</h2>
+        </div>
+        <button type="button" class="icon-button" data-close="create-dialog" aria-label="Tutup tambah pesanan">
+          <svg class="icon">
+            <use href="#i-close"/>
+          </svg>
+        </button>
+      </div>
+      <form id="create-form" class="dialog-content create-form" novalidate>
+        <p class="detail-hint">Untuk pesanan dari chat WA yang tidak tercatat lewat website. Status awal Menunggu; harga, diskon, dan total dihitung server.</p>
+        <label for="create-name">Nama pelanggan</label>
+        <input id="create-name" type="text" maxlength="100" autocomplete="off" required>
+        <h3>Item pesanan</h3>
+        <div id="create-items"></div>
+        <label for="create-wa">Nomor WA pembeli <span class="optional">(opsional)</span></label>
+        <input id="create-wa" type="text" inputmode="tel" maxlength="32" autocomplete="off" placeholder="081234567890">
+        <label for="create-payment">Metode pembayaran</label>
+        <select id="create-payment">
+          <option value="">Belum ditentukan</option>
+          <option value="QRIS">QRIS</option>
+          <option value="CASH">Tunai</option>
+        </select>
+        <label for="create-note">Catatan admin <span class="optional">(opsional)</span></label>
+        <textarea id="create-note" rows="3" maxlength="500"></textarea>
+        <p id="create-error" class="form-error" role="alert" hidden></p>
+      </form>
+      <div class="dialog-actions">
+        <button type="button" class="button secondary" data-close="create-dialog">Batal</button>
+        <button type="button" class="button primary" id="create-submit" disabled>Simpan pesanan</button>
+      </div>
+    </dialog>
+    <dialog id="proof-dialog" class="proof-dialog" aria-labelledby="proof-title">
+      <div class="dialog-heading">
+        <div>
+          <span class="eyebrow">BUKTI PEMBAYARAN</span>
+          <h2 id="proof-title">Bukti pembayaran</h2>
+        </div>
+        <button type="button" class="icon-button" data-close="proof-dialog" aria-label="Tutup foto">
+          <svg class="icon">
+            <use href="#i-close"/>
+          </svg>
+        </button>
+      </div>
+      <div class="dialog-content">
+        <img id="proof-view" class="proof-view" alt="">
+      </div>
+      <div class="dialog-actions">
+        <a id="proof-download" class="button secondary">
+          <svg class="icon">
+            <use href="#i-download"/>
+          </svg>
+          Unduh
+        </a>
+        <button type="button" class="button secondary" data-close="proof-dialog">Tutup</button>
+      </div>
+    </dialog>
+<div id="toasts" class="toasts" role="status" aria-live="polite" aria-atomic="false">
+    </div>
+  </body>
+</html>
